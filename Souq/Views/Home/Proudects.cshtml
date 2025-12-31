@@ -1,0 +1,38 @@
+﻿@model List<Souq.Models.Product>
+
+<section id="services" class="services section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>
+            Product Sections
+        </h2>
+        <p>
+            We offer the best services that meet your needs, and your orders will be delivered wherever you are.
+        </p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="row gy-4">
+            @foreach (var item in Model)
+            {
+
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-item d-flex">
+                        <div>
+                            <img src="@item.Photo" style="width: 100% !important" />
+                            <h4 class="title"><a href="#" class="stretched-link">@item.Name </a></h4>
+                            <p class="description"> @item.Describtion </p>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+        </div>
+
+    </div>
+
+</section>

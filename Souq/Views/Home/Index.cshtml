@@ -1,0 +1,198 @@
+﻿@model List<Souq.Models.Category>
+@{
+       var products = ViewBag.products as List<Souq.Models.Product>;
+        }<div class="container mt-4">
+                <div class="col-12">
+                    <form action="/Home/ProudectSerch" method="get">
+                        <div class="row">
+                        <div class="input-group">
+                            <input type="text" name="aa" id="aa"
+                                   class="form-control"
+                                   placeholder="Search..." />
+                            <button class="btn btn-primary" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    
+<section id="services" class="services section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Site Sections</h2>
+        <p>We offer the best services that meet your needs, and your orders will be delivered wherever you are.</p>
+    </div>
+
+    <div class="container">
+        <div class="row gy-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-item d-flex" style="width: 100% !important">
+                        <div class="icon flex-shrink-0"><i class="bi bi-box-seam"></i></div>
+                        <div>
+                            <h4><a href="/Home/Proudects/@item.Id">@item.Name</a></h4>
+                            <p class="description">@item.Descrption</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class="portfolio section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Portfolio</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div>
+
+    <div class="container">
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+            <!-- Filters -->
+            <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+                <li data-filter="*" class="filter-active">All</li>
+                @foreach (var cat in Model)
+                {
+                    <li data-filter=".cat-@cat.Id">@cat.Name</li>
+                }
+            </ul>
+
+            <!-- Products -->
+            <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+                @foreach (var product in products)
+                {
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item cat-@product.CatId">
+                        <div class="portfolio-content h-100">
+                            <a href="@product.Photo" data-gallery="portfolio-gallery-app" class="glightbox">
+                                <img src="@product.Photo" class="img-fluid" alt="@product.Name" />
+                            </a>
+                            <div class="portfolio-info">
+                                <h4>
+                                    <a href="/Home/Proudects/@product.Id" title="More Details">@product.Name</a>
+                                </h4>
+                                <p>@product.Describtion</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div><!-- End Section Title -->
+
+    <div class="container aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+            <div class="col-lg-6">
+
+                <div class="row gy-4">
+                    <div class="col-md-6">
+                        <div class="info-item aos-init aos-animate" data-aos="fade" data-aos-delay="200">
+                            <a href="https://www.google.com/maps?q=LAT,LNG" target="_blank">
+                                Open map
+                                </a>
+
+                            <i class="bi bi-geo-alt"></i>
+                            <h3>Address</h3>
+                            <p>A108 Adam Street</p>
+                            <p>New York, NY 535022</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="col-md-6">
+                        <div class="info-item aos-init aos-animate" data-aos="fade" data-aos-delay="300">
+                            <a href="https://wa.me/970599123456?text=Hello%20I%20want%20to%20order" target="_blank">
+                                Call Us
+                            </a>
+
+                            <i class="bi bi-telephone"></i>
+                            <h3>Telphon Call</h3>
+                            <p>+9725156725</p>
+                            <p>+9705156725</p>
+                            
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="col-md-6">
+                        <a href="mailto:MustafaSalah171@yahoo.com" target="_blank"
+                           class="info-item d-block text-decoration-none text-dark aos-init aos-animate"
+                           data-aos="fade" data-aos-delay="400">
+
+                            <i class="bi bi-envelope"></i>
+                            <h3>Email Us</h3>
+                            <p>info@example.com</p>
+                            <p>contact@example.com</p>
+                        </a>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="info-item aos-init aos-animate" data-aos="fade" data-aos-delay="500">
+                            <i class="bi bi-clock"></i>
+                            <h3>Open Hours</h3>
+                            <p>Monday - Friday</p>
+                            <p>9:00AM - 05:00PM</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+                <form asp-action="sendReview" asp-controller="Home" method="post" class="php-email-form aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                    <div class="row gy-4">
+
+                        <div class="col-md-6">
+                            <input type="text" name="Name" class="form-control" placeholder="Your Name" required="">
+                        </div>
+
+                        <div class="col-md-6 ">
+                            <input type="email" class="form-control" name="Email" placeholder="Your Email" required="">
+                        </div>
+
+                        <div class="col-12">
+                            <input type="text" class="form-control" name="Subject" placeholder="Subject" required="">
+                        </div>
+
+                        <div class="col-12">
+                            <textarea class="form-control" name="Description" rows="6" placeholder="Message" required=""></textarea>
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                            <button type="submit">Send Message</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div><!-- End Contact Form -->
+
+        </div>
+
+    </div>
+
+</section>
