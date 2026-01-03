@@ -1,4 +1,4 @@
-﻿@model List<Souq.Models.Category>
+﻿ List<Souq.Models.Category>
 @{
        var products = ViewBag.products as List<Souq.Models.Product>;
         }<div class="container mt-4">
@@ -90,9 +90,7 @@
     </div>
 </section>
 
-
-<section id="contact" class="contact section">
-
+    <section id="contact" class="contact section">
     <!-- Section Title -->
     <div class="container section-title aos-init aos-animate" data-aos="fade-up">
         <h2>Contact</h2>
@@ -110,7 +108,7 @@
                         <div class="info-item aos-init aos-animate" data-aos="fade" data-aos-delay="200">
                             <a href="https://www.google.com/maps?q=LAT,LNG" target="_blank">
                                 Open map
-                                </a>
+                            </a>
 
                             <i class="bi bi-geo-alt"></i>
                             <h3>Address</h3>
@@ -129,21 +127,23 @@
                             <h3>Telphon Call</h3>
                             <p>+9725156725</p>
                             <p>+9705156725</p>
-                            
+
                         </div>
                     </div><!-- End Info Item -->
 
-                    <div class="col-md-6">
-                        <a href="mailto:MustafaSalah171@yahoo.com" target="_blank"
-                           class="info-item d-block text-decoration-none text-dark aos-init aos-animate"
-                           data-aos="fade" data-aos-delay="400">
+                        <div class="col-md-6">
+                            <a href="https://mail.google.com/mail/?view=cm&to=hdhxhh39@gmail.com
+"
+                               target="_blank"
+                               class="info-item d-block text-decoration-none text-dark aos-init aos-animate"
+                               data-aos="fade" data-aos-delay="200">
 
-                            <i class="bi bi-envelope"></i>
-                            <h3>Email Us</h3>
-                            <p>info@example.com</p>
-                            <p>contact@example.com</p>
-                        </a>
-                    </div>
+                                <i class="bi bi-envelope"></i>
+                                <h3>Email Us</h3>
+                                <p> hdhxhh39@gmail.com</p>
+                                <p> hdhxhh39@gmail.com</p>
+                            </a>
+                        </div>
 
 
                     <div class="col-md-6">
@@ -161,7 +161,7 @@
 
             <div class="col-lg-6">
                 <form id="reviewForm"
-                    asp-action="sendReview"
+                      asp-action="sendReview"
                       asp-controller="Home"
                       method="post"
                       style="background: white; padding: 30px; box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);">
@@ -184,7 +184,7 @@
                             <textarea class="form-control" name="Description" rows="6" placeholder="Message" required=""></textarea>
                         </div>
 
-                        <div class="col-12 text-center" >
+                        <div class="col-12 text-center">
                             <button type="submit" style="background-color: blue; color: white; border: none; padding: 10px 20px;">
                                 Send Message
                             </button>
@@ -200,9 +200,20 @@
                 alert("Send SucsseFully ✅");
             });
         </script>
+                        <div class="modal-body table-responsive" id="xmapid">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d13620.850022581068!2d34.36434155!3d31.408270699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2s!4v1767445246100!5m2!1sar!2s" width="100%" height="300" frameborder="0" class="border-0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </section>
+ 
+                        
+                </div>
 
+            </div>
+        </div>
+    </section>
 
-    </div>
-
-</section>
