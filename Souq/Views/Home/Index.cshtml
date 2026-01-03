@@ -160,7 +160,12 @@
             </div>
 
             <div class="col-lg-6">
-                <form asp-action="sendReview" asp-controller="Home" method="post" class="php-email-form aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                <form id="reviewForm"
+                    asp-action="sendReview"
+                      asp-controller="Home"
+                      method="post"
+                      style="background: white; padding: 30px; box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);">
+
                     <div class="row gy-4">
 
                         <div class="col-md-6">
@@ -179,19 +184,24 @@
                             <textarea class="form-control" name="Description" rows="6" placeholder="Message" required=""></textarea>
                         </div>
 
-                        <div class="col-12 text-center">
-                            <div class="loading">Loading</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        <div class="col-12 text-center" >
+                            <button type="submit" style="background-color: blue; color: white; border: none; padding: 10px 20px;">
+                                Send Message
+                            </button>
 
-                            <button type="submit">Send Message</button>
+
                         </div>
-
-                    </div>
                 </form>
             </div><!-- End Contact Form -->
 
         </div>
+        <script>
+            document.getElementById("reviewForm").addEventListener("submit", function () {
+                alert("Send SucsseFully ✅");
+            });
+        </script>
+
+
 
     </div>
 
