@@ -1,7 +1,9 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Souq.Models;
+using System.Diagnostics;
 
 namespace Souq.Controllers;
 
@@ -12,15 +14,17 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var a = db.Categories.ToList();
-        ViewBag.products = db.Products.ToList();
+        IndexVm a = new IndexVm();
+        a.Categories = db.Categorys.ToList();
+        a.Products = db.Products.ToList();
+        a.Reviews = db.Reviews.ToList();
         return View(a);
         
     }
     public IActionResult Detils()
     {
 
-        var a = db.Categories.ToList();
+        var a = db.Categorys.ToList();
         return View(a);
     }
 
@@ -37,11 +41,28 @@ public class HomeController : Controller
         var a = db.Products.Where(x=> x.CatId == id).ToList();
         return View(a);
     }
+    [Route("Home/CuranntProduct/{id}")]
+    public IActionResult CuranntProduct(int id)
+    {
+        var product = db.Products
+                        .Include(p => p.Cat) // ÌáÈ Category ÇáãÑÊÈØ
+                        .FirstOrDefault(p => p.Id == id); // ÇáÈÍË ÍÓÈ Id ÇáãäÊÌ
+
+        if (product == null)
+            return NotFound(); // Ãæ ÑÓÇáÉ ãäÇÓÈÉ
+
+        return View(product);
+    }
+
     [HttpGet]
     public IActionResult ProudectSerch(string aa)
     {
-        var a = db.Products.Where(x => x.Name.Contains(aa)).ToList();
-        return View(a);
+        var products = new List<Product>();
+        if (string.IsNullOrEmpty(aa)) 
+            products = db.Products.ToList();
+        else
+         products = db.Products.Where(x => x.Name.Contains(aa)).ToList();
+        return View(products);
     }
     [HttpPost]
     public IActionResult sendReview(string Name, string Email, string Subject ,string Description)
@@ -54,7 +75,7 @@ public class HomeController : Controller
 
     public IActionResult Category()
     {
-        var a = db.Categories.ToList();
+        var a = db.Categorys.ToList();
         return View(a);
     }
 

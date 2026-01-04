@@ -1,4 +1,4 @@
-﻿ List<Souq.Models.Category>
+﻿ @model Souq.Models.IndexVm
 @{
        var products = ViewBag.products as List<Souq.Models.Product>;
         }<div class="container mt-4">
@@ -7,7 +7,7 @@
                         <div class="row">
                         <div class="input-group">
                             <input type="text" name="aa" id="aa"
-                                   class="form-control"
+                                   class="form-control" 
                                    placeholder="Search..." />
                             <button class="btn btn-primary" type="submit">
                                 Search
@@ -30,17 +30,20 @@
 
     <div class="container">
         <div class="row gy-4">
-            @foreach (var item in Model)
+                @foreach (var item in Model.Categories)
             {
-                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-item d-flex" style="width: 100% !important">
-                        <div class="icon flex-shrink-0"><i class="bi bi-box-seam"></i></div>
-                        <div>
-                            <h4><a href="/Home/Proudects/@item.Id">@item.Name</a></h4>
-                            <p class="description">@item.Descrption</p>
+                    <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-item d-flex" style="width= 100% !important">
+                            <div class="icon flex-shrink-0"><i class=".cat-@item.Photo"></i></div>
+                            <div>
+                                <h4><a href=/Home/Proudects/@item.Id>@item.Name </a></h4>
+                            <p class="description">
+                                @item.Descrption
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+
             }
         </div>
     </div>
@@ -51,7 +54,9 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>Portfolio</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>
+            View all products on the site
+        </p>
     </div>
 
     <div class="container">
@@ -60,7 +65,7 @@
             <!-- Filters -->
             <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
                 <li data-filter="*" class="filter-active">All</li>
-                @foreach (var cat in Model)
+                    @foreach (var cat in Model.Categories)
                 {
                     <li data-filter=".cat-@cat.Id">@cat.Name</li>
                 }
@@ -68,7 +73,8 @@
 
             <!-- Products -->
             <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-                @foreach (var product in products)
+                @foreach (var product in Model.Products)
+
                 {
                     <div class="col-lg-4 col-md-6 portfolio-item isotope-item cat-@product.CatId">
                         <div class="portfolio-content h-100">
@@ -77,7 +83,7 @@
                             </a>
                             <div class="portfolio-info">
                                 <h4>
-                                    <a href="/Home/Proudects/@product.Id" title="More Details">@product.Name</a>
+                                    <a href="/Home/CuranntProduct/@product.Id" title="More Details">@product.Name</a>
                                 </h4>
                                 <p>@product.Describtion</p>
                             </div>
@@ -89,6 +95,81 @@
         </div>
     </div>
 </section>
+<section id="testimonials" class="testimonials section light-background">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>
+            Visitors' opinion
+        </h2>
+        <p>Our customers' opinions about the service we provide
+</p>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="swiper init-swiper" data-speed="600" data-delay="5000">
+
+            <script type="application/json" class="swiper-config">
+                {
+                  "direction": "horizontal",
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  },
+                  "breakpoints": {
+                    "320": {
+                      "slidesPerView": 1,
+                      "spaceBetween": 40
+                    },
+                    "1200": {
+                      "slidesPerView": 3,
+                      "spaceBetween": 20
+                    }
+                  }
+                }
+            </script>
+
+            <!-- ✅ wrapper واحد فقط -->
+            <div class="swiper-wrapper">
+
+                @foreach (var item in Model.Reviews)
+                {
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>@item.Description</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+
+                            <img src="assets/img/testimonials/testimonials-1.jpg"
+                                 class="testimonial-img" alt="">
+
+                            <h3>@item.Name</h3>
+                            <h4>@item.Subject</h4>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
 
     <section id="contact" class="contact section">
     <!-- Section Title -->
@@ -112,8 +193,8 @@
 
                             <i class="bi bi-geo-alt"></i>
                             <h3>Address</h3>
-                            <p>A108 Adam Street</p>
-                            <p>New York, NY 535022</p>
+                            <p>Palestine-Gaza</p>
+                            <p>DirAl-Balah</p>
                         </div>
                     </div><!-- End Info Item -->
 
