@@ -170,6 +170,42 @@
 
 </section>
 
+<section id="pricing" class="pricing section">
+
+    <!-- Section Title -->
+    <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+        <h2>Latest products</h2>
+        <p>Latest products and offers added to our website</p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+        <div class="row gy-4">
+
+            @foreach (var item in Model.Latestproducts)
+            {
+                <div class="col-lg-4 col-md-6 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="pricing-item">
+                        <h3>@item.Name</h3>
+                        <h3>@item.Describtion</h3>
+                        <h4><sup>$</sup>@item.Price<span></span></h4>
+                        <img style="height:300px; width:300px;" src="@item.Photo" alt="@item.Name" />
+                        <p>
+
+
+
+                        </p>
+                        <a href="/Home/CuranntProduct/@item.Id" class="buy-btn">Buy Now</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</section>
+
+
+
 
     <section id="contact" class="contact section">
     <!-- Section Title -->

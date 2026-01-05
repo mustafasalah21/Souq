@@ -41,4 +41,6 @@ public partial class Product
     [ForeignKey("CatId")]
     [InverseProperty("Products")]
     public virtual Category? Cat { get; set; }
+    [InverseProperty("Product")]
+    public virtual ICollection<Productimage> Productimage { get; set; } = new List<Productimage>();
 }

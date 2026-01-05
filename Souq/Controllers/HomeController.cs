@@ -18,6 +18,7 @@ public class HomeController : Controller
         a.Categories = db.Categorys.ToList();
         a.Products = db.Products.ToList();
         a.Reviews = db.Reviews.ToList();
+        a.Latestproducts = db.Products.OrderByDescending(x => x.Date).Take(3).ToList();
         return View(a);
         
     }
@@ -45,8 +46,8 @@ public class HomeController : Controller
     public IActionResult CuranntProduct(int id)
     {
         var product = db.Products
-                        .Include(p => p.Cat) // Ã·» Category «·„— »ÿ
-                        .FirstOrDefault(p => p.Id == id); // «·»ÕÀ Õ”» Id «·„‰ Ã
+                        .Include(p => p.Cat).Include(p=>p.Productimage) 
+                        .FirstOrDefault(p => p.Id == id); 
 
         if (product == null)
             return NotFound(); // √Ê —”«·… „‰«”»…
