@@ -1,6 +1,6 @@
 ﻿@model Souq.Models.Product
 <div style="text-align: center; margin-top: 50px; margin-bottom: 40px;">
-    <h1 style="margin-bottom: 20px;">Portfolio Details</h1>
+    <h1 style="margin-bottom: 20px;">Product Details</h1>
     
 </div>
 
@@ -33,7 +33,7 @@
             @foreach (var item in Model.Productimage)
             {
                 <div  class="swiper-slide swiper-slide-next" role="group" aria-label="4 / 4" data-swiper-slide-index="3">
-                    <img  style="height:500px" width="500px" src="@item.Image" >
+                    <img  style="height:400px" width="400px" src="@item.Image" >
                 </div>
             }
             </div>
