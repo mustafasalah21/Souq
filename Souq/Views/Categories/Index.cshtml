@@ -1,4 +1,15 @@
 ﻿@model IEnumerable<Souq.Models.Category>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +20,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th>
