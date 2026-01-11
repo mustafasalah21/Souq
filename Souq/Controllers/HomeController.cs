@@ -9,8 +9,12 @@ namespace Souq.Controllers;
 
 public class HomeController : Controller
 {
-    SouqContext db = new SouqContext();
+    private readonly SouqDbContext db;
 
+    public HomeController(SouqDbContext _db)
+    {
+        db = _db;
+    }
 
     public IActionResult Index()
     {

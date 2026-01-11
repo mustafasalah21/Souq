@@ -20,7 +20,7 @@ public partial class Product
     [StringLength(450)]
     public string? Describtion { get; set; }
 
-    public sbyte? Price { get; set; }
+    public byte? Price { get; set; }
 
     [StringLength(45)]
     public string? Photo { get; set; }
@@ -30,7 +30,8 @@ public partial class Product
 
     public int? CatId { get; set; }
 
-    public DateOnly? Date { get; set; }
+    public DateTime? Date { get; set; }
+    
 
     [StringLength(500)]
     public string? Url { get; set; }

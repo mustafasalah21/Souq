@@ -1,0 +1,14 @@
+﻿export const AdministrationNS: "AdminP.Administration" = "AdminP.Administration";
+export const nsAdministration: "AdminP.Administration." = "AdminP.Administration.";
+export const DefaultNS: "AdminP.Default" = "AdminP.Default";
+export const nsDefault: "AdminP.Default." = "AdminP.Default.";
+export const MembershipNS: "AdminP.Membership" = "AdminP.Membership";
+export const nsMembership: "AdminP.Membership." = "AdminP.Membership.";
+export const ModulesDefaultCartNS: "AdminP.Modules.Default.Cart" = "AdminP.Modules.Default.Cart";
+export const nsModulesDefaultCart: "AdminP.Modules.Default.Cart." = "AdminP.Modules.Default.Cart.";
+export const ModulesDefaultCategoryNS: "AdminP.Modules.Default.Category" = "AdminP.Modules.Default.Category";
+export const nsModulesDefaultCategory: "AdminP.Modules.Default.Category." = "AdminP.Modules.Default.Category.";
+export const ModulesDefaultProductNS: "AdminP.Modules.Default.Product" = "AdminP.Modules.Default.Product";
+export const nsModulesDefaultProduct: "AdminP.Modules.Default.Product." = "AdminP.Modules.Default.Product.";
+export const ModulesDefaultProductimageNS: "AdminP.Modules.Default.Productimage" = "AdminP.Modules.Default.Productimage";
+export const nsModulesDefaultProductimage: "AdminP.Modules.Default.Productimage." = "AdminP.Modules.Default.Productimage.";

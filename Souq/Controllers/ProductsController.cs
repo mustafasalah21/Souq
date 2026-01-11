@@ -47,7 +47,7 @@ namespace Souq.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CatId"] = new SelectList(_context.Categorys, "Id", "Id");
+            ViewData["CatId"] = new SelectList(_context.Categorys, "Id", "Name");
             return View();
         }
 
