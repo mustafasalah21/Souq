@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace AdminP.Common.Pages;
 public class FilePage(IUploadStorage uploadStorage, IUploadProcessor uploadProcessor) : Controller
@@ -8,10 +8,25 @@ public class FilePage(IUploadStorage uploadStorage, IUploadProcessor uploadProce
 
     [Route("upload/{*pathInfo}")]
     public IActionResult Read(string pathInfo,
-        [FromServices] IUploadFileResponder responder)
+      [FromServices] IUploadFileResponder responder)
     {
+        if (string.IsNullOrWhiteSpace(pathInfo))
+            return BadRequest("Empty path");
+
+        // افصل أي querystring لو اندمج بالغلط
+        var q = pathInfo.IndexOf('?');
+        if (q >= 0) pathInfo = pathInfo[..q];
+
+        // Serenity تتوقع مسار نسبي للرفع، استخدم / وخليه نسبي
+        pathInfo = pathInfo.TrimStart('~').TrimStart('/', '\\');
+
+        // منع أي محاولة traversal
+        if (pathInfo.Contains(".."))
+            return BadRequest("Invalid path");
+
         return responder.Read(pathInfo, Response.Headers);
     }
+
 
     [Route("File/TemporaryUpload")]
     [AcceptVerbs("POST")]

@@ -23,7 +23,7 @@ public sealed class ProductRow : Row<ProductRow.RowFields>, IIdRow, INameRow
     [DisplayName("Price")]
     public short? Price { get => fields.Price[this]; set => fields.Price[this] = value; }
 
-    [DisplayName("Photo"), Size(45)]
+    [DisplayName("Photo"), ImageUploadEditor, Size(45)]
     public string Photo { get => fields.Photo[this]; set => fields.Photo[this] = value; }
 
     [DisplayName("Suplier Name"), Size(45)]

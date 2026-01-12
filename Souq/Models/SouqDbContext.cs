@@ -19,7 +19,7 @@ public partial class SouqDbContext : DbContext
     public virtual DbSet<Productimage> Productimages { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Review> Reviews { get; set; }
-    public DbSet<Category> Categorys { get; set; }
+    public DbSet<Category> Categories { get; set; }
     public DbSet<Cart> Carts { get; set; }
 
   

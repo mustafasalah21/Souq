@@ -1,17 +1,22 @@
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Souq.Models;
+using Souq.Models.IdentityModel;
 using System.Diagnostics;
+using System.Security.Claims;
+
+
 
 namespace Souq.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly SouqDbContext db;
+    private readonly SouqContext db;
 
-    public HomeController(SouqDbContext _db)
+    public HomeController(SouqContext _db)
     {
         db = _db;
     }
@@ -19,7 +24,7 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         IndexVm a = new IndexVm();
-        a.Categories = db.Categorys.ToList();
+        a.Categories = db.Categories.ToList();
         a.Products = db.Products.ToList();
         a.Reviews = db.Reviews.ToList();
         a.Latestproducts = db.Products.OrderByDescending(x => x.Date).Take(3).ToList();
@@ -29,7 +34,7 @@ public class HomeController : Controller
     public IActionResult Detils()
     {
 
-        var a = db.Categorys.ToList();
+        var a = db.Categories.ToList();
         return View(a);
     }
 
@@ -37,10 +42,47 @@ public class HomeController : Controller
     {
         return View();
     }
+    [Authorize]
     public IActionResult Cart()
     {
-        return View();
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var myCart = db.Carts
+                       .Where(c => c.IdentityUserId == identityUserId)
+                       .ToList();
+
+        return View(myCart);
     }
+
+    [Authorize]
+    public IActionResult AddProductToCart(int id)
+    {
+        var prise = db.Products.Find(id).Price;
+
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); // âœ… ID Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ Ù…Ù† Identity
+
+        var item = db.Carts.FirstOrDefault(x =>
+            x.ProductId == id && x.IdentityUserId == identityUserId);
+
+        if (item != null)
+        {
+            item.Quantity += 1;
+        }
+        else
+        {
+            db.Carts.Add(new Cart
+            {
+                ProductId = id,
+                Quantity = 1,
+                IdentityUserId = identityUserId,
+                Prise = prise
+            });
+        }
+
+        db.SaveChanges();
+        return RedirectToAction("Cart");
+    }
+
     public IActionResult Proudects(int id)
     {
         var a = db.Products.Where(x=> x.CatId == id).ToList();
@@ -50,11 +92,11 @@ public class HomeController : Controller
     public IActionResult CuranntProduct(int id)
     {
         var product = db.Products
-                        .Include(p => p.Cat).Include(p=>p.Productimage) 
+                        .Include(p => p.Cat).Include(p=>p.Productimages) 
                         .FirstOrDefault(p => p.Id == id); 
 
         if (product == null)
-            return NotFound(); // Ãæ ÑÓÇáÉ ãäÇÓÈÉ
+            return NotFound(); // Ø£Ùˆ Ø±Ø³Ø§Ù„Ø© Ù…Ù†Ø§Ø³Ø¨Ø©
 
         return View(product);
     }
@@ -80,7 +122,7 @@ public class HomeController : Controller
 
     public IActionResult Category()
     {
-        var a = db.Categorys.ToList();
+        var a = db.Categories.ToList();
         return View(a);
     }
 

@@ -30,7 +30,7 @@
                 }
             </script>
             <div class="swiper-wrapper align-items-center" id="swiper-wrapper-97d106278e730e44e" aria-live="off" style="transition-duration: 0ms; transform: translate3d(-3888px, 0px, 0px); transition-delay: 0ms;">
-            @foreach (var item in Model.Productimage)
+            @foreach (var item in Model.Productimages)
             {
                 <div  class="swiper-slide swiper-slide-next" role="group" aria-label="4 / 4" data-swiper-slide-index="3">
                     <img  style="height:400px" width="400px" src="@item.Image" >
@@ -71,7 +71,7 @@
 
                    
                 </div>
-            <button style="background:red" class="btn btn-primary"> Add to Cart <i class="bi bi-plus"></i></button>
+            <a style="background:red" class="btn btn-primary" href="/Home/AddProductToCart/@Model.Id"> Add to Cart <i class="bi bi-plus"></i></a>
             <p > 
                 
             

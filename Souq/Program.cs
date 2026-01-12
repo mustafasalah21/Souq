@@ -5,7 +5,7 @@ using Souq.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Connection string (ãÑÉ æÇÍÏÉ ÝÞØ)
+// Connection string (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // App DbContext (Souq)
-builder.Services.AddDbContext<SouqDbContext>(options =>
+builder.Services.AddDbContext<SouqContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

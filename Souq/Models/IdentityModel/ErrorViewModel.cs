@@ -1,4 +1,4 @@
-namespace Souq.Models
+namespace Souq.Models.IdentityModel
 {
     public class ErrorViewModel
     {

@@ -47,7 +47,7 @@ namespace Souq.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CatId"] = new SelectList(_context.Categorys, "Id", "Name");
+            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace Souq.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CatId"] = new SelectList(_context.Categorys, "Id", "Id", product.CatId);
+            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.CatId);
             return View(product);
         }
 
@@ -81,7 +81,7 @@ namespace Souq.Controllers
             {
                 return NotFound();
             }
-            ViewData["CatId"] = new SelectList(_context.Categorys, "Id", "Id", product.CatId);
+            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.CatId);
             return View(product);
         }
 
@@ -117,7 +117,7 @@ namespace Souq.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CatId"] = new SelectList(_context.Categorys, "Id", "Id", product.CatId);
+            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.CatId);
             return View(product);
         }
 

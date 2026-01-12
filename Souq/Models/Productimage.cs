@@ -10,5 +10,6 @@ public partial class Productimage
     public int Productid { get; set; }
 
     public string? Image { get; set; }
-    public virtual Product? Product { get; set; }
+
+    public virtual Product Product { get; set; } = null!;
 }
