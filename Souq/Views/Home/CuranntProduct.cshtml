@@ -1,85 +1,104 @@
 ﻿@model Souq.Models.Product
+
 <div style="text-align: center; margin-top: 50px; margin-bottom: 40px;">
     <h1 style="margin-bottom: 20px;">Product Details</h1>
-    
+
 </div>
 
-   
+
 </div>
 
-    <div class="container aos-init aos-animate" data-aos="fade-up">
+<div class="container aos-init aos-animate" data-aos="fade-up">
 
-        <div class="portfolio-details-slider swiper init-swiper swiper-initialized swiper-horizontal swiper-backface-hidden">
-            <script type="application/json" class="swiper-config">
-                {
-                  "loop": true,
-                  "speed": 600,
-                  "autoplay": {
-                    "delay": 5000
-                  },
-                  "slidesPerView": "1.9",
-                  "navigation": {
-                    "nextEl": ".swiper-button-next",
-                    "prevEl": ".swiper-button-prev"
-                  },
-                  "pagination": {
-                    "el": ".swiper-pagination",
-                    "type": "bullets",
-                    "clickable": true
-                  }
-                }
-            </script>
-            <div class="swiper-wrapper align-items-center" id="swiper-wrapper-97d106278e730e44e" aria-live="off" style="transition-duration: 0ms; transform: translate3d(-3888px, 0px, 0px); transition-delay: 0ms;">
+    <div class="portfolio-details-slider swiper init-swiper swiper-initialized swiper-horizontal swiper-backface-hidden">
+        <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "1.9",
+              "navigation": {
+                "nextEl": ".swiper-button-next",
+                "prevEl": ".swiper-button-prev"
+              },
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              }
+            }
+        </script>
+
+        <div class="swiper-wrapper align-items-center" id="swiper-wrapper-97d106278e730e44e" aria-live="off" style="transition-duration: 0ms; transform: translate3d(-3888px, 0px, 0px); transition-delay: 0ms;">
             @foreach (var item in Model.Productimages)
             {
-                <div  class="swiper-slide swiper-slide-next" role="group" aria-label="4 / 4" data-swiper-slide-index="3">
-                    <img  style="height:400px" width="400px" src="@item.Image" >
+                <div class="swiper-slide swiper-slide-next" role="group" aria-label="4 / 4" data-swiper-slide-index="3">
+                    <img style="height:400px" width="400px" src="@item.Image">
                 </div>
             }
-            </div>
-            <div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-97d106278e730e44e"></div>
-            <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-97d106278e730e44e"></div>
-            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2">
-
-            </span><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 3" aria-current="true"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span></div>
-            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
         </div>
 
-        <div class="row justify-content-between gy-4 mt-4">
+        <div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-97d106278e730e44e"></div>
+        <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-97d106278e730e44e"></div>
+        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+            <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span>
+            <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span>
+            <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 3" aria-current="true"></span>
+            <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span>
+        </div>
 
-            <div class="col-lg-8 aos-init aos-animate" data-aos="fade-up">
-                <div class="portfolio-description">
-                    <h2>@Model.Name</h2>
-                    <p>
-                        @Model.Describtion
-                    </p>
+        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+    </div>
 
-                </div>
+    <div class="row justify-content-between gy-4 mt-4">
+
+        <div class="col-lg-8 aos-init aos-animate" data-aos="fade-up">
+            <div class="portfolio-description">
+                <h2>@Model.Name</h2>
+                <p>
+                    @Model.Describtion
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+            <div class="portfolio-info">
+                <h3>Project information</h3>
+                <ul>
+                    <li><strong>Category</strong> @Model.Cat.Name</li>
+                    <li><strong>SuplierName</strong> @Model.SuplierName</li>
+                    <li><strong> Pris</strong> @Model.Price </li>
+                    <li><strong>Product date</strong> @Model.Date</li>
+                    <li><strong>Product URL</strong> <a href="#">@Model.Url</a></li>
+                    <li><a href="#" class="btn-visit align-self-start">Visit Website</a></li>
+                </ul>
             </div>
 
-            <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                <div class="portfolio-info">
-                    <h3>Project information</h3>
-                    <ul>
-                        <li><strong>Category</strong> @Model.Cat.Name</li>
-                        <li><strong>SuplierName</strong> @Model.SuplierName</li>
-                        <li><strong> Pris</strong> @Model.Price </li>
-                        <li><strong>Product date</strong> @Model.Date</li>
-                        <li><strong>Product URL</strong> <a href="#">@Model.Url</a></li>
-                        <li><a href="#" class="btn-visit align-self-start">Visit Website</a></li>
-                    </ul>
+            <a style="background:red" class="btn btn-primary" href="/Home/AddProductToCart/@Model.Id">
+                Add to Cart <i class="bi bi-plus"></i>
+            </a>
 
-                   
-                </div>
-            <a style="background:red" class="btn btn-primary" href="/Home/AddProductToCart/@Model.Id"> Add to Cart <i class="bi bi-plus"></i></a>
-            <p > 
-                
-            
-            </p>
-            </div>
-
+            <p></p>
         </div>
 
     </div>
 
+</div>
+
 </section>
+
+<!-- ✅ الإضافة الوحيدة: تحديث الـ Swiper بعد ما الصفحة تجهز عشان أول صورة تبين مباشرة -->
+<script>
+    window.addEventListener("load", function () {
+        setTimeout(function () {
+            document.querySelectorAll(".swiper").forEach(function (sw) {
+                if (sw.swiper) {
+                    sw.swiper.update();
+                    sw.swiper.slideTo(0, 0);
+                }
+            });
+        }, 300);
+    });
+</script>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,10 +16,12 @@ namespace Souq.Controllers;
 public class HomeController : Controller
 {
     private readonly SouqContext db;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public HomeController(SouqContext _db)
+    public HomeController(SouqContext _db, UserManager<IdentityUser> userManager)
     {
         db = _db;
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -29,7 +32,7 @@ public class HomeController : Controller
         a.Reviews = db.Reviews.ToList();
         a.Latestproducts = db.Products.OrderByDescending(x => x.Date).Take(3).ToList();
         return View(a);
-        
+
     }
     public IActionResult Detils()
     {
@@ -47,7 +50,7 @@ public class HomeController : Controller
     {
         var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var myCart = db.Carts
+        var myCart = db.Carts.Include(x => x.Product)
                        .Where(c => c.IdentityUserId == identityUserId)
                        .ToList();
 
@@ -85,15 +88,15 @@ public class HomeController : Controller
 
     public IActionResult Proudects(int id)
     {
-        var a = db.Products.Where(x=> x.CatId == id).ToList();
+        var a = db.Products.Where(x => x.CatId == id).ToList();
         return View(a);
     }
     [Route("Home/CuranntProduct/{id}")]
     public IActionResult CuranntProduct(int id)
     {
         var product = db.Products
-                        .Include(p => p.Cat).Include(p=>p.Productimages) 
-                        .FirstOrDefault(p => p.Id == id); 
+                        .Include(p => p.Cat).Include(p => p.Productimages)
+                        .FirstOrDefault(p => p.Id == id);
 
         if (product == null)
             return NotFound(); // أو رسالة مناسبة
@@ -105,16 +108,16 @@ public class HomeController : Controller
     public IActionResult ProudectSerch(string aa)
     {
         var products = new List<Product>();
-        if (string.IsNullOrEmpty(aa)) 
+        if (string.IsNullOrEmpty(aa))
             products = db.Products.ToList();
         else
-         products = db.Products.Where(x => x.Name.Contains(aa)).ToList();
+            products = db.Products.Where(x => x.Name.Contains(aa)).ToList();
         return View(products);
     }
     [HttpPost]
-    public IActionResult sendReview(string Name, string Email, string Subject ,string Description)
+    public IActionResult sendReview(string Name, string Email, string Subject, string Description)
     {
-        db.Reviews.Add(new Review { Name = Name , Email = Email, Subject= Subject , Description = Description });
+        db.Reviews.Add(new Review { Name = Name, Email = Email, Subject = Subject, Description = Description });
         db.SaveChanges();
 
         return RedirectToAction("Index");
@@ -131,4 +134,151 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+
+
+    [Authorize]
+    public IActionResult IncreaseCart(int id)
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var item = db.Carts.FirstOrDefault(x =>
+            x.ProductId == id && x.IdentityUserId == identityUserId);
+
+        if (item != null)
+        {
+            item.Quantity += 1;
+            db.SaveChanges();
+        }
+
+        return RedirectToAction("Cart");
+    }
+
+    [Authorize]
+    public IActionResult DecreaseCart(int id)
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var item = db.Carts.FirstOrDefault(x =>
+            x.ProductId == id && x.IdentityUserId == identityUserId);
+
+        if (item != null)
+        {
+            item.Quantity -= 1;
+
+            // إذا صارت الكمية 0 أو أقل احذف المنتج من الكارت
+            if (item.Quantity <= 0)
+                db.Carts.Remove(item);
+
+            db.SaveChanges();
+        }
+
+        return RedirectToAction("Cart");
+    }
+
+    [Authorize]
+    public IActionResult RemoveFromCart(int id)
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var item = db.Carts.FirstOrDefault(x =>
+            x.ProductId == id && x.IdentityUserId == identityUserId);
+
+        if (item != null)
+        {
+            db.Carts.Remove(item);
+            db.SaveChanges();
+        }
+
+        return RedirectToAction("Cart");
+    }
+
+
+
+
+
+    //  Order o = new Order { Email = model.Email, Name = model.Name, Address = model.Address, Mobile = model.Mobile, Id = model.Id };
+    //  var cartItems = db.Carts.Where(c => c.IdentityUserId == User.Identity.Name).ToList();
+    //  foreach (var item in cartItems)
+    //  {
+    //      var totalPrice = item.Quantity * item.Prise;
+    //      o.OrderDetiles.Add(new OrderDetile
+    //      {
+    //          Productid = item.ProductId,
+    //          Price = item.Prise,
+    //          Qty = item.Quantity,
+    //          TotelPrice = (int?)totalPrice,
+    //          OrderId = item.Id
+    //      });
+    //  }
+    //  db.Carts.RemoveRange(cartItems);
+    //  db.Orders.Add(o);
+    //  db.SaveChanges();
+    //
+    //  return RedirectToAction("Index");
+    [Authorize]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult CompleteOrder(string name, string address, string email, string mobile)
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // ✅ اقرأ الكارت بدون Tracking + مع السعر
+        var cartItems = db.Carts
+            .AsNoTracking()
+            .Where(c => c.IdentityUserId == identityUserId)
+            .Select(c => new
+            {
+                c.ProductId,
+                c.Quantity,
+                Price = db.Products.Where(p => p.Id == c.ProductId)
+                                   .Select(p => p.Price)
+                                   .FirstOrDefault()
+            })
+            .ToList();
+
+        if (!cartItems.Any())
+        {
+            TempData["OrderSuccess"] = "السلة فاضية.";
+            return RedirectToAction("Cart");
+        }
+
+        // ✅ Create Order
+        var order = new Order
+        {
+            Name = name,
+            Address = address,
+            Email = email,
+            Mobile = mobile,
+            UserNumber = identityUserId
+        };
+
+        db.Orders.Add(order);
+        db.SaveChanges(); // عشان order.Id
+
+        // ✅ Create OrderDetiles (بدون Include/Navigation)
+        var details = cartItems.Select(item => new OrderDetile
+        {
+            Productid = item.ProductId,
+            Price = item.Price,
+            Qty = item.Quantity,
+            TotelPrice = (int)(item.Price * item.Quantity),
+            OrderId = order.Id
+        }).ToList();
+
+        db.OrderDetiles.AddRange(details);
+
+        // ✅ Empty Cart (جيبهم من جديد للتتبع والحذف)
+        var cartsToRemove = db.Carts
+            .Where(c => c.IdentityUserId == identityUserId)
+            .ToList();
+
+        db.Carts.RemoveRange(cartsToRemove);
+
+        db.SaveChanges();
+
+        TempData["OrderSuccess"] = "✅ تم توصيل الطلب بنجاح";
+        return RedirectToAction("Cart");
+    }
+
 }

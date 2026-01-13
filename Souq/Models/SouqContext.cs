@@ -17,43 +17,29 @@ public partial class SouqContext : DbContext
     }
 
     public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-
     public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-
     public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-
     public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-
     public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
     public virtual DbSet<Cart> Carts { get; set; }
-
     public virtual DbSet<Category> Categories { get; set; }
-
-    public virtual DbSet<IdentityModel.Exception> Exceptions { get; set; }
-
+    public virtual DbSet<Souq.Models.IdentityModel.Exception> Exceptions { get; set; }
     public virtual DbSet<Language> Languages { get; set; }
-
     public virtual DbSet<Product> Products { get; set; }
-
     public virtual DbSet<Productimage> Productimages { get; set; }
-
     public virtual DbSet<Review> Reviews { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderDetile> OrderDetiles { get; set; }
 
     public virtual DbSet<RolePermission> RolePermissions { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
-
     public virtual DbSet<UserPermission> UserPermissions { get; set; }
-
     public virtual DbSet<UserPreference> UserPreferences { get; set; }
-
     public virtual DbSet<UserRole> UserRoles { get; set; }
-
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -62,6 +48,8 @@ public partial class SouqContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<AspNetRole>(entity =>
         {
             entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
@@ -76,7 +64,8 @@ public partial class SouqContext : DbContext
         {
             entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
 
-            entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims).HasForeignKey(d => d.RoleId);
+            entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims)
+                .HasForeignKey(d => d.RoleId);
         });
 
         modelBuilder.Entity<AspNetUser>(entity =>
@@ -109,7 +98,8 @@ public partial class SouqContext : DbContext
         {
             entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
 
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims).HasForeignKey(d => d.UserId);
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims)
+                .HasForeignKey(d => d.UserId);
         });
 
         modelBuilder.Entity<AspNetUserLogin>(entity =>
@@ -121,7 +111,8 @@ public partial class SouqContext : DbContext
             entity.Property(e => e.LoginProvider).HasMaxLength(128);
             entity.Property(e => e.ProviderKey).HasMaxLength(128);
 
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins).HasForeignKey(d => d.UserId);
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins)
+                .HasForeignKey(d => d.UserId);
         });
 
         modelBuilder.Entity<AspNetUserToken>(entity =>
@@ -131,7 +122,8 @@ public partial class SouqContext : DbContext
             entity.Property(e => e.LoginProvider).HasMaxLength(128);
             entity.Property(e => e.Name).HasMaxLength(128);
 
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens).HasForeignKey(d => d.UserId);
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens)
+                .HasForeignKey(d => d.UserId);
         });
 
         modelBuilder.Entity<Cart>(entity =>
@@ -144,7 +136,6 @@ public partial class SouqContext : DbContext
             entity.Property(e => e.Prise).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.IdentityUserId).HasMaxLength(450);
-
 
             entity.HasOne(d => d.Product).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.ProductId)
@@ -168,13 +159,16 @@ public partial class SouqContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<IdentityModel.Exception>(entity =>
+        modelBuilder.Entity<Souq.Models.IdentityModel.Exception>(entity =>
         {
-            entity.HasIndex(e => new { e.ApplicationName, e.DeletionDate, e.CreationDate }, "IX_Exceptions_App_Del_Cre").IsDescending(false, false, true);
+            entity.HasIndex(e => new { e.ApplicationName, e.DeletionDate, e.CreationDate }, "IX_Exceptions_App_Del_Cre")
+                .IsDescending(false, false, true);
 
-            entity.HasIndex(e => new { e.Guid, e.ApplicationName, e.DeletionDate, e.CreationDate }, "IX_Exceptions_GUID_App_Del_Cre").IsDescending(false, false, false, true);
+            entity.HasIndex(e => new { e.Guid, e.ApplicationName, e.DeletionDate, e.CreationDate }, "IX_Exceptions_GUID_App_Del_Cre")
+                .IsDescending(false, false, false, true);
 
-            entity.HasIndex(e => new { e.ErrorHash, e.ApplicationName, e.CreationDate, e.DeletionDate }, "IX_Exceptions_Hash_App_Cre_Del").IsDescending(false, false, true, false);
+            entity.HasIndex(e => new { e.ErrorHash, e.ApplicationName, e.CreationDate, e.DeletionDate }, "IX_Exceptions_Hash_App_Cre_Del")
+                .IsDescending(false, false, true, false);
 
             entity.Property(e => e.ApplicationName).HasMaxLength(50);
             entity.Property(e => e.CreationDate).HasColumnType("datetime");
@@ -182,12 +176,8 @@ public partial class SouqContext : DbContext
             entity.Property(e => e.DuplicateCount).HasDefaultValue(1);
             entity.Property(e => e.Guid).HasColumnName("GUID");
             entity.Property(e => e.Host).HasMaxLength(100);
-            entity.Property(e => e.Httpmethod)
-                .HasMaxLength(10)
-                .HasColumnName("HTTPMethod");
-            entity.Property(e => e.Ipaddress)
-                .HasMaxLength(40)
-                .HasColumnName("IPAddress");
+            entity.Property(e => e.Httpmethod).HasMaxLength(10).HasColumnName("HTTPMethod");
+            entity.Property(e => e.Ipaddress).HasMaxLength(40).HasColumnName("IPAddress");
             entity.Property(e => e.IsProtected).HasDefaultValue(true);
             entity.Property(e => e.MachineName).HasMaxLength(50);
             entity.Property(e => e.Message).HasMaxLength(1000);
@@ -329,7 +319,6 @@ public partial class SouqContext : DbContext
         modelBuilder.Entity<UserRole>(entity =>
         {
             entity.HasIndex(e => new { e.RoleId, e.UserId }, "IX_UserRoles_RoleId_UserId");
-
             entity.HasIndex(e => new { e.UserId, e.RoleId }, "UQ_UserRoles_UserId_RoleId").IsUnique();
 
             entity.HasOne(d => d.Role).WithMany(p => p.UserRoles)
@@ -345,9 +334,7 @@ public partial class SouqContext : DbContext
 
         modelBuilder.Entity<VersionInfo>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("VersionInfo");
+            entity.HasNoKey().ToTable("VersionInfo");
 
             entity.HasIndex(e => e.Version, "UC_Version")
                 .IsUnique()
@@ -355,6 +342,54 @@ public partial class SouqContext : DbContext
 
             entity.Property(e => e.AppliedOn).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(1024);
+        });
+
+        // ✅ Order mapping
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.ToTable("Order");
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
+
+            entity.Property(e => e.Address).HasColumnName("address");
+            entity.Property(e => e.Email).HasColumnName("email");
+            entity.Property(e => e.Mobile).HasColumnName("mobile");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.UserNumber).HasColumnName("UserNumber");
+        });
+
+        // ✅ OrderDetile mapping (FIXED)
+        modelBuilder.Entity<OrderDetile>(entity =>
+        {
+            entity.ToTable("OrderDetiles");
+
+            entity.HasKey(e => e.Id);
+
+            // ✅ IMPORTANT: do NOT use ValueGeneratedNever
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
+
+            entity.Property(e => e.Productid).HasColumnName("productid");
+
+            entity.Property(e => e.Price)
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("price");
+
+            entity.Property(e => e.Qty).HasColumnName("Qty");
+            entity.Property(e => e.TotelPrice).HasColumnName("TotelPrice");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetiles)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("FK_OrderDetiles_Order");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetiles)
+                .HasForeignKey(d => d.Productid);
         });
 
         OnModelCreatingPartial(modelBuilder);

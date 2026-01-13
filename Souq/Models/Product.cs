@@ -18,6 +18,8 @@ public partial class Product
     public string? SuplierName { get; set; }
 
     public int? CatId { get; set; }
+    public virtual ICollection<OrderDetile> OrderDetiles { get; set; } = new List<OrderDetile>();
+
 
     public DateOnly? Date { get; set; }
 

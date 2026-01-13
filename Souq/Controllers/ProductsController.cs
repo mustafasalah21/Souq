@@ -11,9 +11,9 @@ namespace Souq.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly SouqDbContext _context;
+        private readonly SouqContext _context;
 
-        public ProductsController(SouqDbContext context)
+        public ProductsController(SouqContext context)
         {
             _context = context;
         }
