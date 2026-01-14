@@ -134,9 +134,6 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
-
-
     [Authorize]
     public IActionResult IncreaseCart(int id)
     {
@@ -153,6 +150,20 @@ public class HomeController : Controller
 
         return RedirectToAction("Cart");
     }
+    [Authorize]
+    public IActionResult Orders()
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var orders = db.Orders
+            .Where(x => x.UserNumber == identityUserId)
+            .Include(x => x.OrderDetiles)
+                .ThenInclude(d => d.Product)
+            .ToList();
+
+        return View(orders);
+    }
+
 
     [Authorize]
     public IActionResult DecreaseCart(int id)
@@ -166,7 +177,7 @@ public class HomeController : Controller
         {
             item.Quantity -= 1;
 
-            // إذا صارت الكمية 0 أو أقل احذف المنتج من الكارت
+          
             if (item.Quantity <= 0)
                 db.Carts.Remove(item);
 
@@ -192,30 +203,6 @@ public class HomeController : Controller
 
         return RedirectToAction("Cart");
     }
-
-
-
-
-
-    //  Order o = new Order { Email = model.Email, Name = model.Name, Address = model.Address, Mobile = model.Mobile, Id = model.Id };
-    //  var cartItems = db.Carts.Where(c => c.IdentityUserId == User.Identity.Name).ToList();
-    //  foreach (var item in cartItems)
-    //  {
-    //      var totalPrice = item.Quantity * item.Prise;
-    //      o.OrderDetiles.Add(new OrderDetile
-    //      {
-    //          Productid = item.ProductId,
-    //          Price = item.Prise,
-    //          Qty = item.Quantity,
-    //          TotelPrice = (int?)totalPrice,
-    //          OrderId = item.Id
-    //      });
-    //  }
-    //  db.Carts.RemoveRange(cartItems);
-    //  db.Orders.Add(o);
-    //  db.SaveChanges();
-    //
-    //  return RedirectToAction("Index");
     [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -254,9 +241,7 @@ public class HomeController : Controller
         };
 
         db.Orders.Add(order);
-        db.SaveChanges(); // عشان order.Id
-
-        // ✅ Create OrderDetiles (بدون Include/Navigation)
+        db.SaveChanges(); 
         var details = cartItems.Select(item => new OrderDetile
         {
             Productid = item.ProductId,
@@ -268,7 +253,7 @@ public class HomeController : Controller
 
         db.OrderDetiles.AddRange(details);
 
-        // ✅ Empty Cart (جيبهم من جديد للتتبع والحذف)
+     
         var cartsToRemove = db.Carts
             .Where(c => c.IdentityUserId == identityUserId)
             .ToList();

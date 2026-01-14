@@ -51,24 +51,20 @@
                                 </a>
                             </td>
 
-                            <!-- ✅ الأزرار الثلاثة -->
                             <td>
                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                    <!-- + زيادة -->
                                     <a class="btn btn-success btn-lg px-3"
                                        href="/Home/IncreaseCart/@item.ProductId"
                                        title="Increase">
                                         <i class="bi bi-plus-lg"></i>
                                     </a>
 
-                                    <!-- - نقصان -->
                                     <a class="btn btn-warning btn-lg px-3"
                                        href="/Home/DecreaseCart/@item.ProductId"
                                        title="Decrease">
                                         <i class="bi bi-dash-lg"></i>
                                     </a>
 
-                                    <!-- حذف -->
                                     <a class="btn btn-danger btn-lg px-3"
                                        href="/Home/RemoveFromCart/@item.ProductId"
                                        title="Remove">
@@ -88,12 +84,6 @@
             <h2 class="fw-bold text-success mb-0">@total</h2>
         </div>
 
-        <div class="d-flex justify-content-center mt-5">
-            <a class="btn btn-success btn-lg px-5 py-3" style="font-size:1.3rem;" href="#">
-                Complete Order <i class="bi bi-check2-circle ms-2"></i>
-            </a>
-        </div>
-
     </div>
 </div>
 
@@ -101,51 +91,64 @@
 @* ✅ رسالة نجاح *@
 @if (TempData["OrderSuccess"] != null)
 {
-    <div class="alert alert-success text-center mt-4">
-        @TempData["OrderSuccess"]
+    <div class="container mt-4">
+        <div class="alert alert-success text-center fw-bold">
+            @TempData["OrderSuccess"]
+        </div>
     </div>
 }
 
 @if (Model != null && Model.Any())
 {
-    <div class="mt-4">
-        <form asp-controller="Home" asp-action="CompleteOrder" method="post" class="row g-3">
-            @Html.AntiForgeryToken()
+    <div class="container mt-5 mb-5">
+        <div class="card shadow-lg border-0 rounded-4" style="border:2px solid #5e41b1;">
+            <div class="card-body p-4 p-md-5">
 
-            <div class="col-12 col-md-6">
-                <label class="form-label fw-bold">Name</label>
-                <input name="name" class="form-control" placeholder="Your name" required />
-            </div>
+                <h3 class="text-center fw-bold mb-4" style="color:#5e41b1;">
+                    🚚 Complete Your Order
+                </h3>
 
-            <div class="col-12 col-md-6">
-                <label class="form-label fw-bold">Mobile</label>
-                <input name="mobile" class="form-control" placeholder="05xxxxxxxx" required />
-            </div>
+                <form asp-controller="Home" asp-action="CompleteOrder" method="post" class="row g-4">
+                    @Html.AntiForgeryToken()
 
-            <div class="col-12 col-md-6">
-                <label class="form-label fw-bold">Email</label>
-                <input name="email" type="email" class="form-control" placeholder="name@example.com" />
-            </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Name</label>
+                        <input name="name" class="form-control form-control-lg" placeholder="Your name" required />
+                    </div>
 
-            <div class="col-12 col-md-6">
-                <label class="form-label fw-bold">Address</label>
-                <input name="address" class="form-control" placeholder="City, Street..." required />
-            </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Mobile</label>
+                        <input name="mobile" class="form-control form-control-lg" placeholder="05xxxxxxxx" required />
+                    </div>
 
-            <div class="col-12 d-flex justify-content-center mt-3">
-                <button type="submit"
-                        class="btn btn-lg text-white px-5 py-3"
-                        style="background-color:#5e41b1; border-radius:12px; font-size:1.2rem;">
-                    Complete Order <i class="bi bi-check2-circle ms-2"></i>
-                </button>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Email</label>
+                        <input name="email" type="email" class="form-control form-control-lg" placeholder="name@example.com" />
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Address</label>
+                        <input name="address" class="form-control form-control-lg" placeholder="City, Street..." required />
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-center mt-3">
+                        <button type="submit"
+                                class="btn btn-lg text-white px-5 py-3"
+                                style="background-color:#5e41b1; border-radius:14px; font-size:1.3rem; min-width:280px;">
+                            Confirm Order <i class="bi bi-check2-circle ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+
             </div>
-        </form>
+        </div>
     </div>
 }
 else
 {
-    <div class="alert alert-info text-center mt-4">
-        Cart is empty.
+    <div class="container mt-4">
+        <div class="alert alert-info text-center fw-bold">
+            🛒 Cart is empty.
+        </div>
     </div>
 }
-

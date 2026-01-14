@@ -1,95 +1,220 @@
 ﻿@model Souq.Models.Product
 
-<div style="text-align: center; margin-top: 50px; margin-bottom: 40px;">
-    <h1 style="margin-bottom: 20px;">Product Details</h1>
+<div class="container py-5">
 
-</div>
+    <!-- ✅ Header -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold mb-1" style="color:#5e41b1;">Product Details</h1>
+        <p class="text-muted mb-0">Everything you need to know about this product</p>
+    </div>
 
+    <div class="row g-4">
 
-</div>
+        <!-- ✅ Left: Slider + Description -->
+        <div class="col-lg-8">
 
-<div class="container aos-init aos-animate" data-aos="fade-up">
+            <!-- ✅ Slider Card -->
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+                <div class="card-body p-0">
 
-    <div class="portfolio-details-slider swiper init-swiper swiper-initialized swiper-horizontal swiper-backface-hidden">
-        <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "1.9",
-              "navigation": {
-                "nextEl": ".swiper-button-next",
-                "prevEl": ".swiper-button-prev"
-              },
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              }
-            }
-        </script>
+                    <div class="swiper init-swiper product-swiper">
+                        <script type="application/json" class="swiper-config">
+                            {
+                              "loop": true,
+                              "speed": 600,
+                              "autoplay": { "delay": 4000 },
+                              "slidesPerView": 1,
+                              "spaceBetween": 20,
+                              "navigation": {
+                                "nextEl": ".swiper-button-next",
+                                "prevEl": ".swiper-button-prev"
+                              },
+                              "pagination": {
+                                "el": ".swiper-pagination",
+                                "type": "bullets",
+                                "clickable": true
+                              }
+                            }
+                        </script>
 
-        <div class="swiper-wrapper align-items-center" id="swiper-wrapper-97d106278e730e44e" aria-live="off" style="transition-duration: 0ms; transform: translate3d(-3888px, 0px, 0px); transition-delay: 0ms;">
-            @foreach (var item in Model.Productimages)
-            {
-                <div class="swiper-slide swiper-slide-next" role="group" aria-label="4 / 4" data-swiper-slide-index="3">
-                    <img style="height:400px" width="400px" src="@item.Image">
+                        <div class="swiper-wrapper">
+                            @if (Model.Productimages != null && Model.Productimages.Any())
+                            {
+                                foreach (var item in Model.Productimages)
+                                {
+                                    <div class="swiper-slide">
+                                        <!-- ✅ الصورة صارت تملي الكارد بشكل أحلى -->
+                                        <div class="product-img-wrap">
+                                            <img src="@item.Image" alt="@Model.Name" class="product-img" />
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="swiper-slide">
+                                    <div class="product-img-wrap d-flex align-items-center justify-content-center">
+                                        <div class="text-muted fw-semibold">No images available</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+
                 </div>
-            }
-        </div>
-
-        <div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-97d106278e730e44e"></div>
-        <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-97d106278e730e44e"></div>
-        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
-            <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span>
-            <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span>
-            <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 3" aria-current="true"></span>
-            <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span>
-        </div>
-
-        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-    </div>
-
-    <div class="row justify-content-between gy-4 mt-4">
-
-        <div class="col-lg-8 aos-init aos-animate" data-aos="fade-up">
-            <div class="portfolio-description">
-                <h2>@Model.Name</h2>
-                <p>
-                    @Model.Describtion
-                </p>
-            </div>
-        </div>
-
-        <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-            <div class="portfolio-info">
-                <h3>Project information</h3>
-                <ul>
-                    <li><strong>Category</strong> @Model.Cat.Name</li>
-                    <li><strong>SuplierName</strong> @Model.SuplierName</li>
-                    <li><strong> Pris</strong> @Model.Price </li>
-                    <li><strong>Product date</strong> @Model.Date</li>
-                    <li><strong>Product URL</strong> <a href="#">@Model.Url</a></li>
-                    <li><a href="#" class="btn-visit align-self-start">Visit Website</a></li>
-                </ul>
             </div>
 
-            <a style="background:red" class="btn btn-primary" href="/Home/AddProductToCart/@Model.Id">
-                Add to Cart <i class="bi bi-plus"></i>
-            </a>
+            <!-- ✅ Description Card -->
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="fw-bold mb-3">@Model.Name</h2>
+                    <p class="text-muted mb-0" style="line-height:1.9;">
+                        @Model.Describtion
+                    </p>
+                </div>
+            </div>
 
-            <p></p>
+        </div>
+
+        <!-- ✅ Right: Info + CTA -->
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3" style="color:#5e41b1;">Product Information</h5>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Category</span>
+                        <span class="fw-semibold">@Model.Cat?.Name</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Supplier</span>
+                        <span class="fw-semibold">@Model.SuplierName</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Date</span>
+                        <span class="fw-semibold">@Model.Date</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Price</span>
+                        <span class="fw-bold text-success" style="font-size:1.2rem;">
+                            @Model.Price
+                        </span>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Url))
+                    {
+                        <div class="mt-3">
+                            <a href="@Model.Url" target="_blank" class="text-decoration-none" style="color:#5e41b1;">
+                                <i class="bi bi-link-45deg"></i> Product link
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <!-- ✅ Add to Cart CTA -->
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-lg text-white"
+                           style="background-color:#5e41b1; border-radius:14px;"
+                           href="/Home/AddProductToCart/@Model.Id">
+                            Add to Cart <i class="bi bi-cart-plus ms-2"></i>
+                        </a>
+
+                        <a class="btn btn-outline-secondary btn-lg"
+                           style="border-radius:14px;"
+                           href="javascript:history.back()">
+                            Back <i class="bi bi-arrow-left ms-2"></i>
+                        </a>
+                    </div>
+
+                    <p class="text-muted small mt-3 mb-0">
+                        By adding this product, it will appear in your cart immediately.
+                    </p>
+
+                </div>
+            </div>
+
         </div>
 
     </div>
-
 </div>
 
-</section>
+<!-- ✅ Styling: يجعل الصورة أجمل + تملي المساحة + تأثير لطيف -->
+<style>
+    .product-swiper {
+        background: #f6f6fb;
+        padding: 18px 18px 34px;
+        border-radius: 18px;
+    }
 
-<!-- ✅ الإضافة الوحيدة: تحديث الـ Swiper بعد ما الصفحة تجهز عشان أول صورة تبين مباشرة -->
+    .product-img-wrap {
+        height: 460px;
+        width: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+        position: relative;
+    }
+
+    .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* ✅ يملي الكارد ويزيل الفراغ */
+        object-position: center;
+        display: block;
+        transition: transform .35s ease;
+    }
+
+    .product-img-wrap:hover .product-img {
+        transform: scale(1.03); /* ✅ زووم بسيط */
+    }
+
+    /* ✅ تحسين الأسهم */
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        background: rgba(94,65,177,.10);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 10px 24px rgba(0,0,0,.10);
+    }
+
+        .swiper-button-prev:after,
+        .swiper-button-next:after {
+            font-size: 16px;
+            font-weight: 900;
+            color: #5e41b1;
+        }
+
+    /* ✅ تحسين نقاط السلايدر */
+    .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        opacity: .35;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: #5e41b1 !important;
+    }
+</style>
+
+<!-- ✅ Swiper update -->
 <script>
     window.addEventListener("load", function () {
         setTimeout(function () {
@@ -99,6 +224,6 @@
                     sw.swiper.slideTo(0, 0);
                 }
             });
-        }, 300);
+        }, 200);
     });
 </script>

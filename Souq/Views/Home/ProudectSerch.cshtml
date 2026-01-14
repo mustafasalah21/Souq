@@ -1,57 +1,128 @@
 ﻿@model List<Souq.Models.Product>
 
+<!-- ================= Search Bar ================= -->
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
 
-<div class="container mt-4">
-    <div class="col-12">
-        <form action="/Home/ProudectSerch" method="get">
-            <div class="row">
+            <form action="/Home/ProudectSerch" method="get" class="shadow-sm p-3 rounded bg-white">
                 <div class="input-group">
                     <input type="text" name="aa" id="aa"
                            class="form-control"
-                           placeholder="Search..." />
+                           placeholder="Search for products..."
+                           value="@Context.Request.Query["aa"]" />
+
                     <button class="btn btn-primary" type="submit">
-                        Search
+                        <i class="bi bi-search me-1"></i> Search
                     </button>
                 </div>
-        </form>
+            </form>
+
+        </div>
     </div>
 </div>
-        </div>
+<!-- ================= End Search ================= -->
 
 
 <section id="services" class="services section">
 
     <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-        <h2>
-            The Ruslt Srearch Is
-        </h2>
-        <p>
-            We offer the best services that meet your needs, and your orders will be delivered wherever you are.
+    <div class="container section-title text-center" data-aos="fade-up">
+        <h2 class="mb-2">Search Results</h2>
+        <p class="text-muted">
+            We found the best matches for you
         </p>
-    </div><!-- End Section Title -->
+    </div>
 
     <div class="container">
 
-        <div class="row gy-4">
-            @foreach (var item in Model)
-            {
+        @if (Model == null || !Model.Any())
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-emoji-frown fs-1 text-muted"></i>
+                <h5 class="mt-3">No products found</h5>
+                <p class="text-muted">Try searching with another keyword</p>
+            </div>
+        }
+        else
+        {
+            <div class="row gy-4">
 
-                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-item d-flex">
-                        <div>
-                            <img src="@item.Photo" style="width: 100% !important" />
-                            <h4 class="title"><a href="/Home/CuranntProduct/@item.Id" class="stretched-link">@item.Name </a></h4>
-                            <p class="description"> @item.Describtion </p>
+                @foreach (var item in Model)
+                {
+                    <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+
+                        <div class="card h-100 shadow-sm border-0 product-card">
+
+                            <!-- Image -->
+                            <div class="position-relative overflow-hidden">
+                                <img src="@item.Photo"
+                                     class="card-img-top"
+                                     style="height:230px; object-fit:cover;"
+                                     alt="@item.Name" />
+
+                                <!-- Overlay -->
+                                <div class="overlay d-flex flex-column align-items-center justify-content-center gap-2">
+                                    <a href="/Home/CuranntProduct/@item.Id" class="btn btn-light btn-sm">
+                                        <i class="bi bi-eye me-1"></i> View
+                                    </a>
+
+                                    <a href="/Home/AddProductToCart/@item.Id" class="btn btn-warning btn-sm fw-semibold">
+                                        <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="card-body text-center">
+                                <h5 class="fw-bold mb-1">@item.Name</h5>
+                                <p class="text-muted small mb-0">
+                                    @item.Describtion
+                                </p>
+                            </div>
+
                         </div>
+
                     </div>
-                </div>
+                }
 
-            }
-
-
-        </div>
+            </div>
+        }
 
     </div>
 
 </section>
+
+
+<style>
+    .product-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .product-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .overlay {
+            opacity: 1;
+        }
+
+        .product-card img {
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+</style>
